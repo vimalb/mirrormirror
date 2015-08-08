@@ -1,28 +1,28 @@
-<ion-view view-title="Dashboard">
+<ion-view>
+  <ion-nav-title>{{ dashTitle }}</ion-nav-title>
+
+  <div class="tabs">
+    <a class="tab-item" ng-click="search({}, 'Recommended Videos')">
+      Recommended
+    </a>
+    <a class="tab-item" ng-click="search({'sort': 'newest'}, 'Newest Videos')">
+      Newest
+    </a>
+    <a class="tab-item" ng-click="search({'live': true}, 'Live Streams')">
+      Live
+    </a>      
+  </div>
+
   <ion-content class="padding">
-    <div class="list card">
-      <div class="item item-divider">Recent Updates</div>
+
+    <div class="list card" ng-repeat="video in videos" ui-sref="tab.video-detail({videoId: video.recordingId})">
+      <div class="item item-divider">{{ video.title }}</div>
       <div class="item item-body">
-        <div>
-          There is a fire in <b>sector 3</b>
-        </div>
+        <img ng-src="{{ video.thumbnails.after }}" style="width: 64px; height: 64px">
       </div>
     </div>
-    <div class="list card">
-      <div class="item item-divider">Health</div>
-      <div class="item item-body">
-        <div>
-          You ate an apple today!
-        </div>
-      </div>
-    </div>
-    <div class="list card">
-      <div class="item item-divider">Upcoming</div>
-      <div class="item item-body">
-        <div>
-          You have <b>29</b> meetings on your calendar tomorrow.
-        </div>
-      </div>
-    </div>
+    <br>
+
   </ion-content>
+
 </ion-view>

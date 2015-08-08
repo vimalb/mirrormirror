@@ -26,7 +26,22 @@ angular.module(MODULE_NAME, ['ionic'])
       });
   })
   .controller(CONTROLLER_NAME, function($scope, videoSearchService) {
-    // TODO: Fill me out
+    console.log("Instantiating controller", CONTROLLER_NAME);
+
+    $scope.videos = [];
+
+    $scope.search = function(searchQuery, searchTitle) {
+      videoSearchService.search(searchQuery).then(function(videos) {
+        $scope.videos = videos;
+        $scope.dashTitle = searchTitle;
+      });
+    }
+
+    $scope.$on('$ionicView.beforeEnter', function(){
+      $scope.search({}, 'Recommended Videos');
+    });
+
+
   })
 
   
