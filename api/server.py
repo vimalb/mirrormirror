@@ -66,7 +66,11 @@ def _clean_recording(recording_json):
             img_filename = recording_id+'.thumbnail.'+k+'.'+img_ext
             dump(os.path.join(FS_RECORDINGS_ROOT, img_filename), img_data.decode(img_enc))
             img_url = WWW_RECORDINGS_ROOT+'/'+img_filename
-            recording_json['thumbnails'][k] = img_url
+        else:
+            img_url = v
+        img_filename = recording_id+'.thumbnail.'+k+'.'+img_url.split('.')[-1]
+        img_url = WWW_RECORDINGS_ROOT+'/'+img_filename
+        recording_json['thumbnails'][k] = img_url
     if recording_json.get('state') == 'finished':
         recording_json['video_url'] = WWW_RECORDINGS_ROOT+'/'+recording_id+'.webm'
     jdump(recording_json, info_filename)
