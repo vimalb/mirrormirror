@@ -31,11 +31,11 @@
           <div class="leading">
             <a class="item item-thumbnail-left large" href="#">
               <img ng-src="{{ video.thumbnails.after || video.thumbnails.before }}" class="photo_margin">
-              <h2 class="username">@{{ video.uploadUser.username }} </h2>
+              <h2 class="username">@{{ video.uploadUser.username }}</h2>
+              <span ng-show="video.state=='live'" class="live-label">live</span>
               <p class="title">{{ video.title }}</p>
               <p class="tag">
                 <span ng-repeat="tag in video.tags">#{{ tag.text }} </span>
-                <span ng-show="video.state=='live'" class="live-label">live</span>
               </p>
             </a>
           </div>
