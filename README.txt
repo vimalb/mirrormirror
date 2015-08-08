@@ -15,7 +15,6 @@ Setup:
 	# cd www
 		# chmod a+rw recordings
 	# cd mobileapp
-		# npm install
 		# cordova prepare
 
 
