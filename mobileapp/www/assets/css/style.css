@@ -1,1 +1,31 @@
 /* Empty. Add your own CSS if you like */
+.float_left {
+    float: left;
+}
+
+#card_text {
+    float: left;
+}
+
+#leading {
+    line-height: 3px;
+}
+
+#watch {
+    font-size: 18px;
+    color: #9D46F2;
+}
+
+#title {
+    font-size: 16px;
+}
+
+#vid_height {
+    min-height: 500px;
+}
+
+hr {
+    display: block;
+    margin: 0.5em 0.5em auto auto;
+    border: inset 1px;
+}

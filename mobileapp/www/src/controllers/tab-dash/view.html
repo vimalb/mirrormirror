@@ -1,28 +1,49 @@
+<!--ELISA WATCH-->
+
+<head>
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
+</head>
+
 <ion-view>
-  <ion-nav-title>{{ dashTitle }}</ion-nav-title>
+    <ion-nav-title>{{ dashTitle }}</ion-nav-title>
 
-  <div class="tabs">
-    <a class="tab-item" ng-click="search({}, 'Recommended Videos')">
-      Recommended
-    </a>
-    <a class="tab-item" ng-click="search({'sort': 'newest'}, 'Newest Videos')">
-      Newest
-    </a>
-    <a class="tab-item" ng-click="search({'live': true}, 'Live Streams')">
-      Live
-    </a>      
-  </div>
 
-  <ion-content class="padding">
-
-    <div class="list card" ng-repeat="video in videos" ui-sref="tab.video-detail({videoId: video.recordingId})">
-      <div class="item item-divider">{{ video.title }}</div>
-      <div class="item item-body">
-        <img ng-src="{{ video.thumbnails.after }}" style="width: 64px; height: 64px">
-      </div>
+    <!--This div controls the bottom bar that includes "Recommended," "Newest," and "Live"-->
+    <div class="tabs">
+        <a class="tab-item" ng-click="search({}, 'Recommended Videos')">
+            Recommended
+        </a>
+        <a class="tab-item" ng-click="search({'sort': 'newest'}, 'Newest Videos')">
+            Newest
+        </a>
+        <a class="tab-item" ng-click="search({'live': true}, 'Live Streams')">
+            Live
+        </a>
     </div>
-    <br>
+    <!--End div-->
 
-  </ion-content>
+    <!--This comes from ionic-->
+    <ion-content class="padding">
+
+        <div class="list card" ng-repeat="video in videos" ui-sref="tab.video-detail({videoId: video.recordingId})">
+            <!--This is the grey line that says "Another Test Video"-->
+            <!--<div class="item item-divider">{{ video.title }}</div>-->
+            <div class="item item-body">
+
+                <div class="list">
+                    <div class="leading">
+                    <a class="item item-thumbnail-left" href="#">
+                        <img src="../../../images/Watch_Thumb.jpg">
+                        <h2 class="watch">Username</h2>
+                        <p>Video Title</p>
+                        <p>#Tag #Tag #Tag</p>
+                    </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+
+    </ion-content>
 
 </ion-view>
