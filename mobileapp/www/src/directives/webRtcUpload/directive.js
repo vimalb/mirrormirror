@@ -84,10 +84,15 @@ angular.module(MODULE_NAME, [])
             $scope.startRecording = function() {
                 $scope.recordingState = true;
 
-                console.log(CLIENT_SETTINGS.WEBRTC_SERVER_URL);
-    
-                var videoOutput = $(element).find('.uploadVideoOutput')[0];
 
+                var ws_url = (CLIENT_SETTINGS.SERVER_URL+'/one2many').replace('https','ws').replace('http','ws')
+                console.log("websocket url", ws_url);
+
+                var ws = new WebSocket(ws_url);
+                var videoOutput = $(element).find('.uploadVideoOutput')[0];
+                var webRtcPeer;
+
+    
                 var thumbnailCanvas = $(element).find('.uploadVideoThumbnail')[0];
                 thumbnailCanvas.width = videoOutput.width;
                 thumbnailCanvas.height = videoOutput.height;
@@ -102,113 +107,166 @@ angular.module(MODULE_NAME, [])
                 var fileUri = 'file://'+SERVER_SETTINGS.RECORDING_ROOT+'/'+$scope.recordingId+'.webm'
                 console.log("Recording to", fileUri);
 
-                var args = {
-                  ws_uri: CLIENT_SETTINGS.WEBRTC_SERVER_URL+'?cachebuster='+((new Date()).getTime().toString()),
-                  file_uri: fileUri,
-                  ice_servers: undefined
-                };
+                ws.onmessage = function(message) {
+                  var parsedMessage = JSON.parse(message.data);
+                  console.info('Received message: ' + message.data);
 
-                var options = {
-                  remoteVideo: videoOutput
-                };
-
-                if (args.ice_servers) {
-                  console.log("Use ICE servers: " + args.ice_servers);
-                  options.configuration = {
-                    iceServers : JSON.parse(args.ice_servers)
-                  };
-                } else {
-                  console.log("Use freeice")
+                  switch (parsedMessage.id) {
+                  case 'presenterResponse':
+                    presenterResponse(parsedMessage);
+                    break;
+                  case 'viewerResponse':
+                    viewerResponse(parsedMessage);
+                    break;
+                  case 'stopCommunication':
+                    dispose();
+                    break;
+                  case 'iceCandidate':
+                    webRtcPeer.addIceCandidate(parsedMessage.candidate)
+                    break;
+                  default:
+                    console.error('Unrecognized message', parsedMessage);
+                  }
                 }
 
-                var setIceCandidateCallbacks = function(webRtcPeer, webRtcEp, onerror)
-                {
-                  webRtcPeer.on('icecandidate', function(candidate) {
-                    console.log("Local candidate:",candidate);
-                    candidate = kurentoClient.register.complexTypes.IceCandidate(candidate);
-                    webRtcEp.addIceCandidate(candidate, onerror)
-                  });
-
-                  webRtcEp.on('OnIceCandidate', function(event) {
-                    var candidate = event.candidate;
-                    console.log("Remote candidate:",candidate);
-                    webRtcPeer.addIceCandidate(candidate, onerror);
-                  });
+                function presenterResponse(message) {
+                  if (message.response != 'accepted') {
+                    var errorMsg = message.message ? message.message : 'Unknow error';
+                    console.warn('Call not accepted for the following reason: ' + errorMsg);
+                    dispose();
+                  } else {
+                    webRtcPeer.processAnswer(message.sdpAnswer);
+                  }
                 }
 
-                var onError = function(){};
+                function viewerResponse(message) {
+                  if (message.response != 'accepted') {
+                    var errorMsg = message.message ? message.message : 'Unknow error';
+                    console.warn('Call not accepted for the following reason: ' + errorMsg);
+                    dispose();
+                  } else {
+                    webRtcPeer.processAnswer(message.sdpAnswer);
+                  }
+                }
 
+                function presenter() {
+                  if (!webRtcPeer) {
+                    showSpinner(videoOutput);
 
-                var webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options, function(error)
-                {
-                  if(error) return onError(error)
-                  this.generateOffer(onOffer)
-                });
+                    var options = {
+                      localVideo: videoOutput,
+                      onicecandidate : onIceCandidate
+                      }
 
-
-                function onOffer(error, offer) {
-                    if (error) return onError(error);
-
-                    console.log("Offer...");
-
-                    kurentoClient(args.ws_uri, function(error, client) {
-                      if (error) return onError(error);
-
-                      client.create('MediaPipeline', function(error, pipeline) {
-                        if (error) return onError(error);
-
-
-                        var elements =
-                        [
-                          {type: 'RecorderEndpoint', params: {uri : args.file_uri}},
-                          {type: 'WebRtcEndpoint', params: {}}
-                        ]
-
-                        pipeline.create(elements, function(error, elements){
-                          if (error) return onError(error);
-
-                          var recorder = elements[0]
-                          var webRtc   = elements[1]
-
-                          setIceCandidateCallbacks(webRtcPeer, webRtc, onError)
-
-                          webRtc.processOffer(offer, function(error, answer) {
-                            if (error) return onError(error);
-
-                            console.log("offer");
-
-                            webRtc.gatherCandidates(onError);
-                            webRtcPeer.processAnswer(answer);
-                          });
-
-                          client.connect(webRtc, webRtc, recorder, function(error) {
-                            if (error) return onError(error);
-
-                            console.log("Connected");
-
-                            recorder.record(function(error) {
-                              if (error) return onError(error);
-
-                              console.log("record");
-
-                              $scope.onRecordingStart({"recordingId": $scope.recordingId});
-                              $scope.stopRecording = function(event){
-                                console.log("Stopping recording");
-                                recorder.stop();
-                                pipeline.release();
-                                webRtcPeer.dispose();
-                                videoOutput.src = "";
-                                $scope.recordingState = false;
-                                $scope.stopRecording = function(){};
-                              };
-
-                            });
-                          });
-                        });
-                      });
+                    webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options, function(error) {
+                      if(error) return onError(error);
+                      this.generateOffer(onOfferPresenter);
                     });
-
+                  }
                 }
+
+                function onOfferPresenter(error, offerSdp) {
+                  if (error) return onError(error);
+
+                  var message = {
+                    id : 'presenter',
+                    recordingId: $scope.recordingId,
+                    sdpOffer : offerSdp
+                  };
+                  sendMessage(message);
+                }
+
+                /*
+                function viewer() {
+                  if (!webRtcPeer) {
+                    showSpinner(videoOutput);
+
+                    var options = {
+                      remoteVideo: videoOutput,
+                      onicecandidate : onIceCandidate
+                    }
+
+                    webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options, function(error) {
+                      if(error) return onError(error);
+
+                      this.generateOffer(onOfferViewer);
+                    });
+                  }
+                }
+
+                function onOfferViewer(error, offerSdp) {
+                  if (error) return onError(error)
+
+                  var message = {
+                    id : 'viewer',
+                    recordingId: $scope.recordingId,
+                    sdpOffer : offerSdp
+                  }
+                  sendMessage(message);
+                }
+                */
+
+                function onIceCandidate(candidate) {
+                     console.log('Local candidate' + JSON.stringify(candidate));
+
+                     var message = {
+                        id : 'onIceCandidate',
+                        candidate : candidate
+                     }
+                     sendMessage(message);
+                }
+
+                function stop() {
+                  if (webRtcPeer) {
+                    var message = {
+                        id : 'stop'
+                    }
+                    sendMessage(message);
+                    $scope.stopRecording = function(){};
+                    dispose();
+                  }
+                }
+
+                function dispose() {
+                  if (webRtcPeer) {
+                    webRtcPeer.dispose();
+                    webRtcPeer = null;
+                  }
+                  videoOutput.src = "";
+                  $scope.recordingState = false;
+                  hideSpinner(videoOutput);
+                }
+
+                function sendMessage(message) {
+                  var jsonMessage = JSON.stringify(message);
+                  console.log('Senging message: ' + jsonMessage);
+                  ws.send(jsonMessage);
+                }
+
+                function showSpinner() {
+                  for (var i = 0; i < arguments.length; i++) {
+                    arguments[i].poster = 'assets/img//transparent-1px.png';
+                    arguments[i].style.background = 'center transparent url("assets/img/spinner.gif") no-repeat';
+                  }
+                }
+
+                function hideSpinner() {
+                  for (var i = 0; i < arguments.length; i++) {
+                    arguments[i].src = '';
+                    arguments[i].poster = 'assets/img/uploadVideoPlaceholder.png';
+                    arguments[i].style.background = '';
+                  }
+                }
+
+                presenter();
+                $scope.onRecordingStart({"recordingId": $scope.recordingId});
+
+                $scope.stopRecording = function(){
+                  console.log("Stopping recording");
+                  stop();
+                };
+
+
             }
 
 
