@@ -25,6 +25,11 @@
     text-align: center;
     line-height: 30px;
     margin:10px;
+    color: deeppink;
+}
+
+ion-tabs.tabs-color-active-positive .tab-item.tab-item-active {
+    color: deeppink;
 }
 
 .center {
@@ -34,11 +39,13 @@
 .lg-icon {
     margin: 20px 0 -5px 0;
     font-size: 100px;
+    color: deeppink;
 }
 
 .lg-icon-2 {
     margin: 100px 0 -5px 0;
     font-size: 100px;
+    color: deeppink;
 }
     
 .fixed-width {
@@ -58,12 +65,23 @@
     box-shadow: none !important;
 }
 
+.button-pink {
+    color: white;
+    background-color: deeppink;
+    border: 0px;
+}
+
 /*elisa part*/
 /*For the "Watch" tab*/
 
 body {
     font-family: futura, sans-serif;
 }
+
+body.record {
+    background-color: pink;
+}
+
 .float_left {
     float: left;
 }
@@ -151,6 +169,8 @@ div.heart {
     top: 445px;
     color: deeppink;
     font-size: 30px;
+    background-color: transparent;
+    border: none;
 }
 
 /* Determines the length of tags at the bottom of the page*/
