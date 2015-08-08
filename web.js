@@ -63,6 +63,18 @@ app.use('/api', proxy(API_URL, {
   }
 }));
 
+SERVER_SETTINGS = {'RECORDING_ROOT': "" + __dirname + "/www/recordings" }
+
+app.get('/settings/server', function(req, res){
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.json(SERVER_SETTINGS);
+});
+
+
+
+
 app.use(gzippo.staticGzip("" + __dirname + "/www"));
 
 
