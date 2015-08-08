@@ -1,10 +1,26 @@
 <ion-view view-title="Account">
   <ion-content>
     <ion-list>
-    <ion-toggle  ng-model="settings.enableFriends">
-        Enable Friends
-    </ion-toggle>
-    <ion-item>{{ CLIENT_SETTINGS }}</ion-item>
+      <ion-item class="item-avatar">
+        <img src="https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png">
+        <h2>@{{ currentUser.username }}</h2>
+      </ion-item>
+      <label class="item item-input">
+	      <span class="input-label">Name</span>
+	      <input type="text" ng-model="currentUser.name" ng-change="onNameChange()">
+	    </label>
+	    <ion-toggle class="item-icon-left" ng-model="currentUser.isFacebookEnabled">
+      	<i class="icon ion-social-facebook"></i>
+      	Facebook
+      </ion-toggle>
+	    <ion-toggle class="item-icon-left" ng-model="currentUser.isInstagramEnabled">
+      	<i class="icon ion-social-instagram"></i>
+      	Instagram
+      </ion-toggle>
+	    <ion-toggle class="item-icon-left" ng-model="currentUser.isTwitterEnabled">
+      	<i class="icon ion-social-twitter"></i>
+      	Twitter
+      </ion-toggle>
     </ion-list>
   </ion-content>
 </ion-view>

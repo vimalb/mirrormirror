@@ -27,7 +27,14 @@ angular.module(MODULE_NAME, ['ionic'])
           });
     })
     .controller(CONTROLLER_NAME, function($scope, userService) {
-        // TODO: Fill Me Out
+      $scope.currentUser = userService.getCurrentUser();
+
+      $scope.onNameChange = function() {
+        $scope.currentUser.username = $scope.currentUser.name.replace(/[^a-zA-Z0-9]/gmi, "");
+      };
+
+
+
     })
   
 })();
