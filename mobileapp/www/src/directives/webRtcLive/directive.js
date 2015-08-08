@@ -181,8 +181,12 @@ angular.module(MODULE_NAME, [])
 
             }
 
-            // autoplay
-            //$scope.startPlayFn();
+            $scope.$watch('recordingId', function() {
+              $scope.stopPlayFn();
+              $scope.startPlayFn();
+            });
+
+            $scope.startPlayFn();
 
         }
     }

@@ -59,9 +59,9 @@ angular.module(MODULE_NAME, ['ionic'])
           $scope.loadComments(video);
           $scope.pollInterval = $interval(function() {
             $scope.loadComments(video);
-            if($scope.liveVideo.startPlay && !$scope.liveVideo.playingState) {
-              $scope.liveVideo.startPlay();
-            }
+            //if($scope.liveVideo.startPlay && !$scope.liveVideo.playingState) {
+            //  $scope.liveVideo.startPlay();
+            //}
           }, 1000);
         });
       });
