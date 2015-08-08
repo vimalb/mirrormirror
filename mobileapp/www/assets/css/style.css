@@ -1,17 +1,137 @@
 /* Empty. Add your own CSS if you like */
 
-/*
-.upload-video {
-    width: 360px;
-    height: 240px;
+.go-to-bottom {
+    bottom: 10px;
+    width: 100%;
+    position: absolute;
+    top: 490px;
 }
 
-.upload-video-overlay { 
-	position: relative;
-    width: 320px;
-    height: 240px;
-    top: -245px;
-    left: 20px;
-    opacity: 0.5;
+.go-to-bottom-2 {
+    bottom: 10px;
+    width: 100%;
+    position: absolute;
+    top: 390px;
 }
-*/
+
+.opacity {
+    opacity: 0.3;
+}
+
+.larger-font {
+    letter-spacing: -1px;
+    font-size: 1.7em;
+    font-weight: 600;
+    text-align: center;
+    line-height: 30px;
+    margin:10px;
+}
+
+.center {
+    text-align: center;
+}
+
+.lg-icon {
+    margin: 20px 0 -5px 0;
+    font-size: 100px;
+}
+
+.lg-icon-2 {
+    margin: 100px 0 -5px 0;
+    font-size: 100px;
+}
+    
+.fixed-width {
+    max-width: 210px; 
+}
+
+.rounded-input-tags {
+    border-radius: 100px !important;
+    border: 1px solid gray !important;
+    color: gray  !important;
+    background: white !important;
+}
+
+.item-input .tags {
+    outline: none !important;
+    border: 0px !important;
+    box-shadow: none !important;
+}
+
+/*elisa part*/
+/*For the "Watch" tab*/
+
+body {
+    font-family: futura, sans-serif;
+}
+.float_left {
+    float: left;
+}
+.leading {
+    line-height: 65%;
+}
+.item-body .username {
+    font-size: 22px;
+    color: rgb(255, 51, 204);
+}
+.item-body .title {
+    font-size: 18px;
+    color: rgb(173, 51, 173);
+}
+.item-body .tag {
+    font-size: 14px;
+    color: rgb(204, 102, 255);
+}
+.video-item {
+  padding: 0;
+}
+.selected_tab {
+    font-size: 20px;
+    color: rgb(255, 51, 153) !important;
+}
+
+
+/* For the video expanded view */
+
+.vid-height {
+    height: 76vh;
+}
+div.comment {
+    position: absolute;
+    bottom: 50px;
+    width: 96%;
+    padding: 7px;
+    margin: auto 2% auto 2%;
+    background-color: rgba(255, 180, 218, 0.9);
+    border-radius: 5px;
+    font-size: 18px;
+    color: rgb(117, 25, 117);
+}
+div.add_comment {
+    position: absolute;
+    top: 445px;
+    width: 83%;
+    margin: auto 2% auto 2%;
+    background-color: rgba(0, 0, 0, 0.6);
+    font-size: 16px;
+    color: white;
+    border-bottom: 1px solid white;
+}
+p.add_comment {
+    margin: 3px auto auto 10px;
+}
+
+div.heart {
+    position: absolute;
+    right: 4%;
+    top: 445px;
+    color: deeppink;
+    font-size: 30px;
+}
+
+/* Determines the length of tags at the bottom of the page*/
+
+.long {
+    max-width: 450px;
+}
+
