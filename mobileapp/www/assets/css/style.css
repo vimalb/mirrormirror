@@ -1,5 +1,27 @@
 /* Empty. Add your own CSS if you like */
 
+/* dashboard css */
+
+.card .item.item-thumbnail-left.large {
+  padding-left: 130px;
+}
+
+.item-thumbnail-left img.photo_margin {
+    margin: -10px auto auto -10px;
+    max-width: 120px;
+    max-height: 120px;
+}
+/* end dashboard */
+
+.live-label{
+    float: right;
+    background-color: #33CC33;
+    color: white;
+    padding: 5px;
+    border-radius: 2px;
+    margin-top: -5px;
+}
+
 .go-to-bottom {
     bottom: 10px;
     width: 100%;
@@ -88,21 +110,26 @@ body.record {
 .leading {
     line-height: 65%;
 }
+
 .item-body .username {
     font-size: 22px;
     color: rgb(255, 51, 204);
 }
+
 .item-body .title {
     font-size: 18px;
     color: rgb(173, 51, 173);
 }
+
 .item-body .tag {
     font-size: 14px;
     color: rgb(204, 102, 255);
 }
+
 .video-item {
   padding: 0;
 }
+
 .selected_tab {
     font-size: 20px;
     color: rgb(255, 51, 153) !important;

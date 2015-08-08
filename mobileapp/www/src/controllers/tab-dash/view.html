@@ -1,7 +1,9 @@
 <ion-view>
   <ion-nav-title>{{ dashTitle }}</ion-nav-title>
 
+
   <div class="tabs">
+    <!-- XXX when tab is selected, we need to add selected_tab css class to it -->
     <a class="tab-item" ng-click="search({'sort': 'newest'}, 'Newest Videos')">
       Newest
     </a>
@@ -27,11 +29,14 @@
       <div class="item item-body video-item">
         <div class="list">
           <div class="leading">
-            <a class="item item-thumbnail-left" href="#">
-              <img ng-src="{{ video.thumbnails.after || video.thumbnails.before }}">
-              <h2 class="username">@{{ video.uploadUser.username }}  <span ng-show="video.state=='live'" style="color: blue;">LIVE</span></h2>
+            <a class="item item-thumbnail-left large" href="#">
+              <img ng-src="{{ video.thumbnails.after || video.thumbnails.before }}" class="photo_margin">
+              <h2 class="username">@{{ video.uploadUser.username }} </h2>
               <p class="title">{{ video.title }}</p>
-              <p class="tag"><span ng-repeat="tag in video.tags">#{{ tag.text }} </span></p>
+              <p class="tag">
+                <span ng-repeat="tag in video.tags">#{{ tag.text }} </span>
+                <span ng-show="video.state=='live'" class="live-label">live</span>
+              </p>
             </a>
           </div>
         </div>
