@@ -100,7 +100,21 @@ def recordings_item(recording_id):
         resp = {}
         return Response(json.dumps(resp), status='404')
         
-
+@app.route("/api/recordings/<recording_id>/comments", methods=['GET','POST'])
+def recording_comments(recording_id):
+    comments_filename = os.path.join(FS_RECORDINGS_ROOT, recording_id+'.comments.json')
+    if os.path.exists(comments_filename):
+        comments = jload(comments_filename)
+    else:
+        comments = []
+    if request.method in ['POST']:
+        comment_json = json.loads(request.get_data())
+        comments = [comment_json] + comments
+        jdump(comments, comments_filename)
+    return Response(json.dumps(comments), mimetype='application/json')
+    
+        
+    
     
 if __name__ == "__main__":
     resp = [jload(os.path.join(FS_RECORDINGS_ROOT, l)) for l in os.listdir(FS_RECORDINGS_ROOT) if l.endswith('.info.json')]

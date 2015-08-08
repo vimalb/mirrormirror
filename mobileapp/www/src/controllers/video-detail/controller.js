@@ -25,13 +25,23 @@ angular.module(MODULE_NAME, ['ionic'])
       }
     });
   })
-  .controller(CONTROLLER_NAME, function($scope, $stateParams, videoSearchService, $sce) {
+  .controller(CONTROLLER_NAME, function($scope, $stateParams, videoSearchService, $sce, userService, $interval) {
       $scope.video = {};
+      $scope.videoComments = [];
 
       $scope.videoSources = [];
       $scope.videoTheme = "lib/videogular-themes-default/videogular.css";
 
+      $scope.newComment = {'user': userService.getCurrentUser(), 'text': ''};
+
       $scope.clearVideo = function() {};
+
+      $scope.loadComments = function(video) {
+        videoSearchService.getComments($scope.video.recordingId).then(function(comments) {
+          console.log("comments", comments);
+          $scope.videoComments = comments;
+        });
+      }
 
       $scope.loadVideo = function(video) {
         $scope.video = video;
@@ -51,14 +61,32 @@ angular.module(MODULE_NAME, ['ionic'])
         }
       }
 
+      $scope.submitComment = function() {
+        console.log("submit comment", $scope.newComment);
+        if($scope.newComment.text) {
+          videoSearchService.submitComment($scope.video.recordingId, $scope.newComment).then(function(comments) {
+            $scope.newComment.text = '';
+            $scope.videoComments = comments;
+          });
+        }
+      }
+
       $scope.$on('$ionicView.beforeEnter', function(){
         videoSearchService.get($stateParams.videoId).then(function(video) {
           $scope.loadVideo(video);
+          $scope.loadComments(video);
+          $scope.pollInterval = $interval(function() {
+            $scope.loadComments(video);
+          }, 1000);
         });
       });
 
       $scope.$on('$ionicView.beforeLeave', function(){
         $scope.clearVideo();
+        if($scope.pollInterval) {
+          $interval.cancel($scope.pollInterval);
+          $scope.pollInterval = undefined;
+        }
       });
 
 

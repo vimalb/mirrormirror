@@ -52,7 +52,29 @@ angular.module(MODULE_NAME, [])
             });
             return deferred.promise;
           }
-        }
+        },
+        submitComment: function(recordingId, comment) {
+          if(recordingId) {
+            var deferred = $q.defer();
+            var url = CLIENT_SETTINGS.SERVER_URL + '/api/recordings/' + recordingId + '/comments';
+            $http.post(url, JSON.stringify(comment)).then(function(resp) {
+              console.log("Updated comments", resp.data);
+              deferred.resolve(resp.data);
+            });
+            return deferred.promise;
+          }
+        },
+        getComments: function(recordingId, comment) {
+          if(recordingId) {
+            var deferred = $q.defer();
+            var url = CLIENT_SETTINGS.SERVER_URL + '/api/recordings/' + recordingId + '/comments';
+            $http.get(url).then(function(resp) {
+              deferred.resolve(resp.data);
+            });
+            return deferred.promise;
+          }
+        },
+
       };
 
     });

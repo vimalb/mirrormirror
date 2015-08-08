@@ -39,19 +39,16 @@
 
     <div class="comment_bar">
       <div class="add_comment">
-        <input ng-model="newComment" class="comment_box" placeholder="Leave a comment here"></input>
-        <button ng-click="submitComment" class="comment_submit">Submit</button>
+        <input ng-model="newComment.text" class="comment_box" placeholder="Leave a comment here"></input>
+        <button ng-click="submitComment()" class="comment_submit">Submit</button>
       </div>
       <div class="heart">
         <i class="ion-heart"></i>
       </div>
     </div>
 
-    <div class="comment" ng-repeat="comment in video.comments">
-      <p class="add_comment"><span class="comment-username">{{ comment.username }}:</span> {{ comment.text }}</p>
-    </div>
-    <div class="comment">
-      <p class="add_comment"><span class="comment-username">@bar:</span> omg squee</p>
+    <div class="comment" ng-repeat="comment in videoComments">
+      <p class="add_comment"><span class="comment-username">@{{ comment.user.username }}:</span> {{ comment.text }}</p>
     </div>
 
   </ion-content>
