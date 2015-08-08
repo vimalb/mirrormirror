@@ -10,39 +10,54 @@ ELISA VIDEO WHEN STREAMING
   The Friends service returns an array of friend data
 -->
 <ion-view>
-  <ion-nav-title>{{ video.title }}</ion-nav-title>
-  <ion-content class="padding">
-    <!--
-    <img ng-src="{{ video.thumbnails.before }}" style="width: 64px; height: 64px">
-    <img ng-src="{{ video.thumbnails.after }}" style="width: 64px; height: 64px">
-    -->
-    <videogular vg-player-ready="onPlayerReady($API)" vg-theme="videoTheme">
-          <vg-media vg-src="videoSources"></vg-media>
+    <ion-nav-title>{{ video.title }}</ion-nav-title>
+    <ion-content class="padding">
+        <!--
+        <img ng-src="{{ video.thumbnails.before }}" style="width: 64px; height: 64px">
+        <img ng-src="{{ video.thumbnails.after }}" style="width: 64px; height: 64px">
+        -->
+
+        <videogular vg-player-ready="onPlayerReady($API)" vg-theme="videoTheme">
+
+            <vg-media vg-src="videoSources" class="vid-height"></vg-media>
 
 
 
-        <!--Controls aren't necessary for live streaming-->
+            <!--Controls aren't necessary for live streaming-->
 
 
 
-<!--      <vg-controls>
-        <vg-play-pause-button></vg-play-pause-button>
-        <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
-        <vg-scrub-bar>
-          <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-        </vg-scrub-bar>
-        <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
-        <vg-volume>
-          <vg-mute-button></vg-mute-button>
-          <vg-volume-bar></vg-volume-bar>
-        </vg-volume>
-        <vg-fullscreen-button></vg-fullscreen-button>
-      </vg-controls>-->
+            <!--      <vg-controls>
+                    <vg-play-pause-button></vg-play-pause-button>
+                    <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+                    <vg-scrub-bar>
+                      <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                    </vg-scrub-bar>
+                    <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
+                    <vg-volume>
+                      <vg-mute-button></vg-mute-button>
+                      <vg-volume-bar></vg-volume-bar>
+                    </vg-volume>
+                    <vg-fullscreen-button></vg-fullscreen-button>
+                  </vg-controls>-->
 
-      <!--<vg-overlay-play></vg-overlay-play>-->
-    </videogular>
+            <!--<vg-overlay-play></vg-overlay-play>-->
+            <div class="comment">
+                <p class="add_comment">What lipstick do you use?? It's so pretty!!</p>
+            </div>
 
-  </ion-content>
+            <div class="add_comment">
+                <p class="add_comment">Leave a comment</p>
+            </div>
+
+            <div class="heart">
+            <i class="ion-heart"></i>
+            </div>
+
+        </videogular>
+
+
+    </ion-content>
 
 
 
@@ -51,7 +66,7 @@ ELISA VIDEO WHEN STREAMING
 
 
     <div class="tabs">
-        <a class="tab-item" ng-click="search({}, 'Recommended Videos')">
+        <a class="tab-item long" ng-click="search({}, 'Recommended Videos')">
             #Chanel No. 5 lipstick #Revlon Maxx Lash
         </a>
 
