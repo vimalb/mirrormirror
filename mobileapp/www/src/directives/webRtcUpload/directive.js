@@ -194,6 +194,7 @@ angular.module(MODULE_NAME, [])
                     webRtcPeer.dispose();
                     webRtcPeer = null;
                   }
+                  ws.close();
                   videoOutput.src = "";
                   $scope.recordingState = false;
                   hideSpinner(videoOutput);

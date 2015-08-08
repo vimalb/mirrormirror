@@ -23,7 +23,7 @@ var MEDIA_CONSTRAINTS = {
             mandatory: {
                 maxWidth: 640,
                 maxFrameRate: 15,
-                minFrameRate: 15
+                //minFrameRate: 15
             }
         }
     };
