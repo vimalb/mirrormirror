@@ -8,7 +8,8 @@
         Apache Cordova Team
     </author>
     <content src="index.html" />
-    <hook type="before_build" src="hooks/renderEnvironment.js" />
+    <hook src="hooks/renderEnvironment.js" type="before_build" />
+    <hook src="hooks/updateAndroidManifest.py" type="before_compile" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -24,9 +25,12 @@
         <allow-intent href="itms-apps:*" />
     </platform>
     <engine name="android" spec="^4.1.0" />
-    <plugin name="cordova-plugin-whitelist" version="1" />
-    <plugin name="cordova-plugin-console" spec="cordova-plugin-console" />
-    <plugin name="cordova-plugin-device" spec="cordova-plugin-device" />
-    <plugin name="cordova-plugin-splashscreen" spec="cordova-plugin-splashscreen" />
     <plugin name="com.ionic.keyboard" spec="^1.0.4" />
+    <plugin name="cordova-plugin-crosswalk-webview" spec="^1.2.0" />
+    <plugin name="cordova-plugin-camera" spec="^1.2.0" />
+    <plugin name="cordova-plugin-media-capture" spec="^1.0.1" />
+    <plugin name="cordova-plugin-console" spec="^1.0.1" />
+    <plugin name="cordova-plugin-device" spec="^1.0.1" />
+    <plugin name="cordova-plugin-splashscreen" spec="^2.1.0" />
+    <plugin name="cordova-plugin-whitelist" spec="^1.0.0" />
 </widget>
