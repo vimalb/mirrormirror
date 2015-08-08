@@ -9,11 +9,15 @@ Setup:
 	# export WWW_SERVER_URL=http://ip.add.re.ss:5000
 	# export API_URL=http://ip.add.re.ss:3000
 	# export MOBILE_SERVER_URL=http://ip.add.re.ss:5000
+	# export WEBRTC_SERVER_URL=ws://ip.add.re.ss:8888/kurento
 	# pip install requirements.txt
 	# npm install
+	# cd www
+		# chmod a+rw recordings
 	# cd mobileapp
 		# npm install
 		# cordova prepare
+
 
 
 

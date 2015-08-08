@@ -3,6 +3,6 @@ requests
 textblob
 python-dateutil
 Flask
+flask-cors
 beautifulsoup4
 nltk
-
