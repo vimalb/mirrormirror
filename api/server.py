@@ -103,4 +103,7 @@ def recordings_item(recording_id):
 
     
 if __name__ == "__main__":
+    resp = [jload(os.path.join(FS_RECORDINGS_ROOT, l)) for l in os.listdir(FS_RECORDINGS_ROOT) if l.endswith('.info.json')]
+    for recording_json in resp:
+        _clean_recording(recording_json)
     app.run('0.0.0.0', 3000, debug=True)
