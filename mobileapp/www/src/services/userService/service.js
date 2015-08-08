@@ -13,53 +13,29 @@ document.APP_MODULES.push(MODULE_NAME);
 
 console.log(MODULE_NAME, "Registering service", SERVICE_NAME);
 angular.module(MODULE_NAME, [])
-    .factory(SERVICE_NAME, function() {
+    .factory(SERVICE_NAME, function($q, CLIENT_SETTINGS, $http, $rootScope) {
       console.log("Instantiating service", SERVICE_NAME);
 
-      // Some fake testing data
-      var chats = [{
-        id: 0,
-        name: 'Ben Sparrow',
-        lastText: 'You on your way?',
-        face: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png'
-      }, {
-        id: 1,
-        name: 'Max Lynx',
-        lastText: 'Hey, it\'s me',
-        face: 'https://avatars3.githubusercontent.com/u/11214?v=3&s=460'
-      }, {
-        id: 2,
-        name: 'Adam Bradleyson',
-        lastText: 'I should buy a boat',
-        face: 'https://pbs.twimg.com/profile_images/479090794058379264/84TKj_qa.jpeg'
-      }, {
-        id: 3,
-        name: 'Perry Governor',
-        lastText: 'Look at my mukluks!',
-        face: 'https://pbs.twimg.com/profile_images/598205061232103424/3j5HUXMY.png'
-      }, {
-        id: 4,
-        name: 'Mike Harrington',
-        lastText: 'This is wicked good ice cream.',
-        face: 'https://pbs.twimg.com/profile_images/578237281384841216/R3ae1n61.png'
-      }];
+      $rootScope.currentUser = JSON.parse(localStorage.getItem('currentUser') || JSON.stringify({
+        'username': undefined,
+        'name': '',
+        'profilePic': '',
+        'isFacebookEnabled': false,
+        'isTwitterEnabled': false,
+        'isInstagramEnabled': false,
+      }));
+
+      $rootScope.$watch('currentUser', _.debounce(function() {
+        console.log('currentUser changed to', $rootScope.currentUser);
+        localStorage.setItem('currentUser', JSON.stringify($rootScope.currentUser));
+      }, 1000), true);
 
       return {
-        all: function() {
-          return chats;
+        getCurrentUser: function() {
+          return $rootScope.currentUser;
         },
-        remove: function(chat) {
-          chats.splice(chats.indexOf(chat), 1);
-        },
-        get: function(chatId) {
-          for (var i = 0; i < chats.length; i++) {
-            if (chats[i].id === parseInt(chatId)) {
-              return chats[i];
-            }
-          }
-          return null;
-        }
       };
+
     });
   
   
