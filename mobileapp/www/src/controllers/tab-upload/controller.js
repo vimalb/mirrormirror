@@ -77,7 +77,7 @@ angular.module(MODULE_NAME, ['ionic'])
       $scope.goToDash = function() {
         var videoId = $scope.recordingInfo.recordingId;
         $scope.resetUpload();
-        if($scope.recordingInfo.recordingId) {
+        if(videoId) {
           $state.go('tab.video-detail', {videoId: videoId});
         }
         else {

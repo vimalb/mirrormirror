@@ -32,8 +32,8 @@ angular.module(MODULE_NAME, ['ionic'])
 
       $scope.liveVideo = {
         playingState: false,
-        startPlay: function(){},
-        stopPlay: function(){},
+        startPlay: undefined,
+        stopPlay: undefined,
       }
 
       $scope.loadComments = function(video) {
@@ -59,12 +59,17 @@ angular.module(MODULE_NAME, ['ionic'])
           $scope.loadComments(video);
           $scope.pollInterval = $interval(function() {
             $scope.loadComments(video);
+            if($scope.liveVideo.startPlay && !$scope.liveVideo.playingState) {
+              $scope.liveVideo.startPlay();
+            }
           }, 1000);
         });
       });
 
       $scope.$on('$ionicView.beforeLeave', function(){
-        $scope.liveVideo.stopPlay();
+        if($scope.liveVideo.stopPlay) {
+          $scope.liveVideo.stopPlay();
+        }
         if($scope.pollInterval) {
           $interval.cancel($scope.pollInterval);
           $scope.pollInterval = undefined;

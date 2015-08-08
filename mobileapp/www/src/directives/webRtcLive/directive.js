@@ -182,7 +182,7 @@ angular.module(MODULE_NAME, [])
             }
 
             // autoplay
-            $scope.startPlayFn();
+            //$scope.startPlayFn();
 
         }
     }
