@@ -12,7 +12,7 @@
 	      <tags-input ng-model="recordingInfo.tags"></tags-input>
 	    </label>
     	<ion-item>
-	      <button class="button" ng-click="goToRecord()">
+	      <button ng-show="recordingInfo.title" class="button" ng-click="goToRecord()">
 		    Register!
 		  </button>
         </ion-item>

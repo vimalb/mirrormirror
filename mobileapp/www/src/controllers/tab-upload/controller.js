@@ -25,7 +25,7 @@ angular.module(MODULE_NAME, ['ionic'])
         }
       });
     })
-    .controller(CONTROLLER_NAME, function($scope, $rootScope, $state, videoSearchService, userService) {
+    .controller(CONTROLLER_NAME, function($scope, $rootScope, $state, videoSearchService, userService, $timeout, $interval) {
       // states: ['register','record','review','share']
       $scope.uploadState = 'register';
       $scope.recordingId = undefined;
@@ -43,6 +43,10 @@ angular.module(MODULE_NAME, ['ionic'])
         if($scope.recordingInfo && $scope.recordingInfo.state == 'live') {
           $scope.recordingInfo.state = 'canceled';
           videoSearchService.update($scope.recordingInfo);
+        }
+        if($scope.thumbInterval) {
+          $interval.cancel($scope.thumbInterval);
+          $scope.thumbInterval = undefined;
         }
         $scope.recordingInfo = {
           recordingId: undefined,
@@ -71,32 +75,60 @@ angular.module(MODULE_NAME, ['ionic'])
 
 
       $scope.goToDash = function() {
+        var videoId = $scope.recordingInfo.recordingId;
+        $scope.resetUpload();
         if($scope.recordingInfo.recordingId) {
-          $state.go('tab.video-detail', {videoId: $scope.recordingInfo.recordingId});
+          $state.go('tab.video-detail', {videoId: videoId});
         }
         else {
           $state.go('tab.dash');
         }
       }
 
+
       $scope.onRecordingStart = function(recordingId) {
         $scope.recordingInfo.state = 'live';
         videoSearchService.update($scope.recordingInfo);
+        
+        $timeout(function() {
+          if(!$scope.recordingInfo.thumbnails['before']) {
+            $scope.takeThumbnail('before');
+          }
+        }, 5000);
+
+        $scope.thumbInterval = $interval(function() {
+            $scope.takeThumbnail('after');
+        }, 2000);
+
       }
 
       $scope.onRecordingFinish = function(recordingId) {
         $scope.recordingInfo.state = 'finished';
         videoSearchService.update($scope.recordingInfo);
+        if($scope.thumbInterval) {
+          $interval.cancel($scope.thumbInterval);
+          $scope.thumbInterval = undefined;
+        }
         $scope.goToReview();
       }
 
       $scope.takeThumbnail = function(thumbnailType) {
+        if(thumbnailType == 'after') {
+          if($scope.thumbInterval) {
+            $interval.cancel($scope.thumbInterval);
+            $scope.thumbInterval = undefined;
+          }
+        }
         var screenshotSrc = $scope.recordControl.getScreenshot();
         $scope.recordingInfo.thumbnails[thumbnailType] = screenshotSrc;
         videoSearchService.update($scope.recordingInfo);
       }
 
       $scope.$on('$ionicView.beforeLeave', function(){
+        if($scope.thumbInterval) {
+          $interval.cancel($scope.thumbInterval);
+          $scope.thumbInterval = undefined;
+        }
         $scope.resetUpload();
       });
 
