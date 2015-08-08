@@ -137,6 +137,9 @@ angular.module(MODULE_NAME, [])
                   }
                 }
 
+                function onError(error) {
+                  console.error(error);
+                }
 
                 function presenter() {
                   if (!webRtcPeer) {

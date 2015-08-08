@@ -78,6 +78,10 @@ angular.module(MODULE_NAME, [])
                     console.error('Unrecognized message', parsedMessage);
                   }
                 }
+                
+                function onError(error) {
+                  console.error(error);
+                }
 
                 function viewerResponse(message) {
                   if (message.response != 'accepted') {
