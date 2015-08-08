@@ -13,9 +13,12 @@
     -->
     <videogular vg-player-ready="onPlayerReady($API)" vg-theme="videoTheme">
       <vg-media class="vid-height" vg-src="videoSources"></vg-media>
-      <!--vg-controls>
+
+      <!-- design branch changes --> 
+
+      <vg-controls>
         <vg-play-pause-button></vg-play-pause-button>
-        <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+        <!--vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
         <vg-scrub-bar>
           <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
         </vg-scrub-bar>
@@ -24,12 +27,10 @@
           <vg-mute-button></vg-mute-button>
           <vg-volume-bar></vg-volume-bar>
         </vg-volume>
-        <vg-fullscreen-button></vg-fullscreen-button>
+        <vg-fullscreen-button></vg-fullscreen-button-->
       </vg-controls>
  
-      <vg-overlay-play></vg-overlay-play-->
-
-      <!-- design branch changes --> 
+      <vg-overlay-play></vg-overlay-play>
       <div class="comment">
         <p class="add_comment">What lipstick do you use?? It's so pretty!!</p>
       </div>
