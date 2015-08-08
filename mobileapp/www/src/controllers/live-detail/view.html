@@ -7,12 +7,14 @@
 <ion-view>
   <ion-nav-title><span style="color: blue;">LIVE</span> {{ video.title }}</ion-nav-title>
   <ion-content class="padding">
-  	<web-rtc-live 
-  		recording-id="video.recordingId"
-        start-play-fn='liveVideo.startPlay',
-        stop-play-fn='liveVideo.stopPlay',
-        playing-state='liveVideo.playingState',
-  	></web-rtc-live>
+    <div class="live-video-box">
+    	<web-rtc-live 
+    		recording-id="video.recordingId"
+          start-play-fn='liveVideo.startPlay',
+          stop-play-fn='liveVideo.stopPlay',
+          playing-state='liveVideo.playingState',
+    	></web-rtc-live>
+    </div>
 
   <!--
 	<button ng-show="!liveVideo.playingState" class="button" ng-click="liveVideo.startPlay()">
