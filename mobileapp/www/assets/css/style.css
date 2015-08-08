@@ -1,1 +1,59 @@
 /* Empty. Add your own CSS if you like */
+
+.go-to-bottom {
+	bottom: 10px;
+	width: 100%;
+	position: absolute;
+	top: 490px;
+}
+
+.go-to-bottom-2 {
+	bottom: 10px;
+	width: 100%;
+	position: absolute;
+	top: 390px;
+}
+
+.opacity {
+	opacity: 0.3;
+}
+
+.larger-font {
+	letter-spacing: -1px;
+	font-size: 1.7em;
+	font-weight: 600;
+	text-align: center;
+	line-height: 30px;
+	margin:10px;
+}
+
+.center {
+	text-align: center;
+}
+
+.lg-icon {
+	margin: 20px 0 -5px 0;
+	font-size: 100px;
+}
+
+.lg-icon-2 {
+	margin: 100px 0 -5px 0;
+	font-size: 100px;
+}
+	
+.fixed-width {
+	max-width: 210px; 
+}
+
+.rounded-input-tags {
+	border-radius: 100px !important;
+	border: 1px solid gray !important;
+	color: gray  !important;
+	background: white !important;
+}
+
+.item-input .tags {
+	outline: none !important;
+    border: 0px !important;
+	box-shadow: none !important;
+}

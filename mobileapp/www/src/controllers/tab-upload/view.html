@@ -1,38 +1,30 @@
-<ion-view view-title="Share">
+<ion-view view-title="Record">
   <ion-content>
 
   	<div ng-show="uploadState == 'register'">
-      <ion-list>
+      <div class="ion-ios-paper icon center lg-icon"></div>
+      <div class="larger-font">
+	      Information of the video
+		</div>
+       <ion-list>
         <label class="item item-input">
 	      <span class="input-label">Title</span>
-	      <input type="text" ng-model="recordingInfo.title">
+	      <input type="text" placeholder="" ng-model="recordingInfo.title">
 	    </label>
-        <label class="item item-input">
+        <label class="item item-input ">
 	      <span class="input-label">Tags</span>
-	      <tags-input ng-model="recordingInfo.tags"></tags-input>
+	      <tags-input ng-model="recordingInfo.tags" class="fixed-width"></tags-input>
 	    </label>
-    	<ion-item>
-	      <button class="button" ng-click="goToRecord()">
-		    Register!
-		  </button>
-        </ion-item>
+    	
       </ion-list>
+      <button class="button button-full button-positive" ng-click="goToRecord()">
+		    Ready to record!
+		  </button>
     </div>
 
   	<div ng-show="uploadState == 'record'">
       <ion-list>
-    	<ion-item>
-    	  Recording woooo!
-    	</ion-item>
-    	<ion-item>
-    	  <button ng-show="!recordControl.recordingState" class="button" ng-click="recordControl.startRecording()">
-			<span>Start Recording</span>
-		  </button>
-    	  <button ng-show="recordControl.recordingState" class="button" ng-click="recordControl.finishRecording()">
-			<span>Stop Recording</span>
-		  </button>
-        </ion-item>
-    	<ion-item>
+    	
 	      <web-rtc-upload 
 	      	start-recording-fn="recordControl.startRecording" 
 	      	finish-recording-fn="recordControl.finishRecording" 
@@ -43,49 +35,40 @@
 	      	on-recording-start="onRecordingStart(recordingId)"
 	      	on-recording-finish="onRecordingFinish(recordingId)">
 	      </web-rtc-upload>
-    	</ion-item>
-    	<ion-item>
-
-	      <button class="button" ng-click="takeThumbnail('before')">
-		    Before
+    	
+    	  <button ng-show="!recordControl.recordingState" class="button button-full button-balanced go-to-bottom" ng-click="recordControl.startRecording()">
+			<span>Start Recording</span>
 		  </button>
-		  <img ng-src="{{ recordingInfo.thumbnails.before }}" style="width: 40px; height: 40px">
-
-	      <button class="button" ng-click="takeThumbnail('after')">
-		    After
+    	  <button ng-show="recordControl.recordingState" class="button button-full button-assertive go-to-bottom" ng-click="recordControl.finishRecording()">
+			<span>Finish Recording</span>
 		  </button>
-		  <img ng-src="{{ recordingInfo.thumbnails.after }}" style="width: 40px; height: 40px">
-
-        </ion-item>
+        
 
       </ion-list>
     </div>
 
   	<div ng-show="uploadState == 'review'">
-      <ion-list>
-    	<ion-item>
-	      Reviewing woooo!
-    	</ion-item>
-    	<ion-item>
-	      <button class="button" ng-click="goToShare()">
-		    Publish!
+      <div class="ion-ios-cloud-upload icon center lg-icon-2"></div>
+      <div class="larger-font">
+	      Live broadcasting just over.<br>Do you want to save this video?
+		</div>
+	    <button class="button button-full button-balanced go-to-bottom-2" ng-click="goToShare()">
+		    Save and publish it!
 		  </button>
-        </ion-item>
-      </ion-list>
+     
     </div>
 
   	<div ng-show="uploadState == 'share'">
-      <ion-list>
-    	<ion-item>
-	      Sharing woooo!
-    	</ion-item>
-    	<ion-item>
-	      <button class="button" ng-click="goToDash()">
-		    Finish!
+      <div class="ion-ios-checkmark icon center lg-icon-2"></div>
+      <div class="larger-font">
+	      Awesome!<br> Video saved successfully.
+		</div>
+      
+	      <button class="button button-full button-positive go-to-bottom-2" ng-click="goToDash()">
+		    Go to the video!
 		  </button>
-        </ion-item>
-      </ion-list>
-    </div>
+
+        </div>
 
   </ion-content>
 </ion-view>
