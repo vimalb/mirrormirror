@@ -24,65 +24,33 @@ angular.module(MODULE_NAME, [])
         scope: {
             //@ reads the attribute value, = provides two-way binding, & works with functions
 
-            // function(recordingId)
-            startRecordingFn: '=?',
-            finishRecordingFn: '=?',
-            cancelRecordingFn: '=?',
-            getScreenshotFn: '=?',
-            recordingState: '=?',
-            recordingId: '=?',
-            onRecordingStart: '&',
-            onRecordingFinish: '&',
-
+            recordingId: '=',
+            startPlayFn: '=?',
+            stopPlayFn: '=?',
+            playingState: '=?',
             },
         templateUrl: TEMPLATE_URL,
         link: function ($scope, element, attrs) { 
+            $scope.playingState = false;
 
-            $scope.recordingId = undefined;
-            $scope.recordingState = false;
-
-            $scope.startRecordingFn = function() {
-              if(!$scope.recordingState) {
-                $scope.startRecording();
+            $scope.startPlayFn = function() {
+              if(!$scope.playingState) {
+                console.log("Live streaming", $scope.recordingId);
+                $scope.startPlaying();
               }
             }
 
-            $scope.finishRecordingFn = function() {
-              if($scope.recordingState) {
-                $scope.stopRecording();
-                $scope.onRecordingFinish({"recordingId": $scope.recordingId});
-              }
-            }
-
-            $scope.cancelRecordingFn = function() {
-              if($scope.recordingState) {
-                $scope.stopRecording();
-              }
-            }
-
-            $scope.getScreenshotFn = function() {
-              if($scope.recordingState) {
-                return $scope.getScreenshot();
+            $scope.stopPlayFn = function() {
+              if($scope.playingState) {
+                $scope.stopPlaying();
               }
             }
 
 
+            $scope.stopPlaying = function(){};
 
-            var getRecordingId = function() {
-                var d = new Date().getTime();
-                var uuid = 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                    var r = (d + Math.random()*16)%16 | 0;
-                    d = Math.floor(d/16);
-                    return (c=='x' ? r : (r&0x3|0x8)).toString(16);
-                });
-                return uuid;
-            }
-
-
-            $scope.stopRecording = function(){};
-
-            $scope.startRecording = function() {
-                $scope.recordingState = true;
+            $scope.startPlaying = function() {
+                $scope.playingState = true;
 
 
                 var ws_url = (CLIENT_SETTINGS.SERVER_URL+'/one2many').replace('https','ws').replace('http','ws')
@@ -92,28 +60,13 @@ angular.module(MODULE_NAME, [])
                 var videoOutput = $(element).find('.uploadVideoOutput')[0];
                 var webRtcPeer;
 
-    
-                var thumbnailCanvas = $(element).find('.uploadVideoThumbnail')[0];
-                thumbnailCanvas.width = videoOutput.width;
-                thumbnailCanvas.height = videoOutput.height;
-                var thumbnailCtx = thumbnailCanvas.getContext("2d");
-                $scope.getScreenshot = function() {
-                  thumbnailCtx.drawImage(videoOutput, 0, 0, videoOutput.width, videoOutput.height);
-                  return thumbnailCanvas.toDataURL("image/png");
-                }
-
-
-                $scope.recordingId = getRecordingId();
-                var fileUri = 'file://'+SERVER_SETTINGS.RECORDING_ROOT+'/'+$scope.recordingId+'.webm'
-                console.log("Recording to", fileUri);
-
                 ws.onmessage = function(message) {
                   var parsedMessage = JSON.parse(message.data);
                   console.info('Received message: ' + message.data);
 
                   switch (parsedMessage.id) {
-                  case 'presenterResponse':
-                    presenterResponse(parsedMessage);
+                  case 'viewerResponse':
+                    viewerResponse(parsedMessage);
                     break;
                   case 'stopCommunication':
                     dispose();
@@ -126,42 +79,41 @@ angular.module(MODULE_NAME, [])
                   }
                 }
 
-                function presenterResponse(message) {
+                function viewerResponse(message) {
                   if (message.response != 'accepted') {
                     var errorMsg = message.message ? message.message : 'Unknow error';
                     console.warn('Call not accepted for the following reason: ' + errorMsg);
                     dispose();
                   } else {
                     webRtcPeer.processAnswer(message.sdpAnswer);
-                    $scope.onRecordingStart($scope.recordingId);
                   }
                 }
 
-
-                function presenter() {
+                function viewer() {
                   if (!webRtcPeer) {
                     showSpinner(videoOutput);
 
                     var options = {
-                      localVideo: videoOutput,
+                      remoteVideo: videoOutput,
                       onicecandidate : onIceCandidate
-                      }
+                    }
 
-                    webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options, function(error) {
+                    webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options, function(error) {
                       if(error) return onError(error);
-                      this.generateOffer(onOfferPresenter);
+
+                      this.generateOffer(onOfferViewer);
                     });
                   }
                 }
 
-                function onOfferPresenter(error, offerSdp) {
-                  if (error) return onError(error);
+                function onOfferViewer(error, offerSdp) {
+                  if (error) return onError(error)
 
                   var message = {
-                    id : 'presenter',
+                    id : 'viewer',
                     recordingId: $scope.recordingId,
                     sdpOffer : offerSdp
-                  };
+                  }
                   sendMessage(message);
                 }
 
@@ -181,7 +133,6 @@ angular.module(MODULE_NAME, [])
                         id : 'stop'
                     }
                     sendMessage(message);
-                    $scope.stopRecording = function(){};
                     dispose();
                   }
                 }
@@ -192,7 +143,7 @@ angular.module(MODULE_NAME, [])
                     webRtcPeer = null;
                   }
                   videoOutput.src = "";
-                  $scope.recordingState = false;
+                  $scope.playingState = false;
                   hideSpinner(videoOutput);
                 }
 
@@ -217,11 +168,10 @@ angular.module(MODULE_NAME, [])
                   }
                 }
 
-                presenter();
-                $scope.onRecordingStart({"recordingId": $scope.recordingId});
+                viewer();
 
-                $scope.stopRecording = function(){
-                  console.log("Stopping recording");
+                $scope.stopPlaying = function(){
+                  console.log("Stopping playing");
                   stop();
                 };
 

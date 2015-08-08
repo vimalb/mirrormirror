@@ -15,7 +15,7 @@
 
   <ion-content class="padding">
 
-    <div class="list card" ng-repeat="video in videos" ui-sref="tab.video-detail({videoId: video.recordingId})">
+    <div class="list card" ng-repeat="video in videos" ng-click="goVideoDetail(video)">
       <div class="item item-divider">{{ video.title }}</div>
       <div class="item item-body">
         <img ng-src="{{ video.thumbnails.after }}" style="width: 64px; height: 64px">

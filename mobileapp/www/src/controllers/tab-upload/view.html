@@ -26,12 +26,12 @@
     	</ion-item>
     	<ion-item>
     	  <button ng-show="!recordControl.recordingState" class="button" ng-click="recordControl.startRecording()">
-			<span>Start Recording</span>
-		  </button>
+			    <span>Start Recording</span>
+		    </button>
     	  <button ng-show="recordControl.recordingState" class="button" ng-click="recordControl.finishRecording()">
-			<span>Stop Recording</span>
-		  </button>
-        </ion-item>
+			    <span>Stop Recording</span>
+		    </button>
+      </ion-item>
     	<ion-item>
 	      <web-rtc-upload 
 	      	start-recording-fn="recordControl.startRecording" 
@@ -45,18 +45,17 @@
 	      </web-rtc-upload>
     	</ion-item>
     	<ion-item>
-
 	      <button class="button" ng-click="takeThumbnail('before')">
 		    Before
-		  </button>
-		  <img ng-src="{{ recordingInfo.thumbnails.before }}" style="width: 40px; height: 40px">
+		    </button>
+		    <img ng-src="{{ recordingInfo.thumbnails.before }}" style="width: 40px; height: 40px">
 
 	      <button class="button" ng-click="takeThumbnail('after')">
 		    After
-		  </button>
-		  <img ng-src="{{ recordingInfo.thumbnails.after }}" style="width: 40px; height: 40px">
+		    </button>
+		    <img ng-src="{{ recordingInfo.thumbnails.after }}" style="width: 40px; height: 40px">
 
-        </ion-item>
+      </ion-item>
 
       </ion-list>
     </div>

@@ -25,7 +25,7 @@ angular.module(MODULE_NAME, ['ionic'])
         }
       });
   })
-  .controller(CONTROLLER_NAME, function($scope, videoSearchService) {
+  .controller(CONTROLLER_NAME, function($scope, videoSearchService, $state) {
     console.log("Instantiating controller", CONTROLLER_NAME);
 
     $scope.videos = [];
@@ -40,6 +40,15 @@ angular.module(MODULE_NAME, ['ionic'])
     $scope.$on('$ionicView.beforeEnter', function(){
       $scope.search({}, 'Recommended Videos');
     });
+
+    $scope.goVideoDetail = function(video) {
+      if(video.state == 'live') {
+        $state.go('tab.live-detail', {videoId: video.recordingId});
+      }
+      else {
+        $state.go('tab.video-detail', {videoId: video.recordingId});
+      }
+    }
 
 
   })
