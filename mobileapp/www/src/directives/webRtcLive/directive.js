@@ -179,9 +179,10 @@ angular.module(MODULE_NAME, [])
                   stop();
                 };
 
-
             }
 
+            // autoplay
+            $scope.startPlayFn();
 
         }
     }

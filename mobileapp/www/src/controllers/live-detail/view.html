@@ -13,13 +13,29 @@
         stop-play-fn='liveVideo.stopPlay',
         playing-state='liveVideo.playingState',
   	></web-rtc-live>
+
+  <!--
 	<button ng-show="!liveVideo.playingState" class="button" ng-click="liveVideo.startPlay()">
 		<span>Start Playing</span>
 	</button>
 	<button ng-show="liveVideo.playingState" class="button" ng-click="liveVideo.stopPlay()">
 		<span>Stop Playing</span>
 	</button>
+  -->
 
+    <div class="comment_bar">
+      <div class="add_comment">
+        <input ng-model="newComment.text" class="comment_box" placeholder="Leave a comment here"></input>
+        <button ng-click="submitComment()" class="comment_submit">Submit</button>
+      </div>
+      <div class="heart">
+        <i class="ion-heart"></i>
+      </div>
+    </div>
+
+    <div class="comment" ng-repeat="comment in videoComments">
+      <p class="add_comment"><span class="comment-username">@{{ comment.user.username }}:</span> {{ comment.text }}</p>
+    </div>
 
   </ion-content>
 </ion-view>

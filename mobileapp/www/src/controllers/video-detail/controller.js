@@ -28,11 +28,11 @@ angular.module(MODULE_NAME, ['ionic'])
   .controller(CONTROLLER_NAME, function($scope, $stateParams, videoSearchService, $sce, userService, $interval) {
       $scope.video = {};
       $scope.videoComments = [];
+      $scope.newComment = {'user': userService.getCurrentUser(), 'text': ''};
 
       $scope.videoSources = [];
       $scope.videoTheme = "lib/videogular-themes-default/videogular.css";
 
-      $scope.newComment = {'user': userService.getCurrentUser(), 'text': ''};
 
       $scope.clearVideo = function() {};
 

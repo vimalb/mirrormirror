@@ -25,8 +25,10 @@ angular.module(MODULE_NAME, ['ionic'])
       }
     });
   })
-  .controller(CONTROLLER_NAME, function($scope, $stateParams, videoSearchService, $sce) {
+  .controller(CONTROLLER_NAME, function($scope, $stateParams, videoSearchService, $sce, $timeout, $interval, userService) {
       $scope.video = {};
+      $scope.videoComments = [];
+      $scope.newComment = {'user': userService.getCurrentUser(), 'text': ''};
 
       $scope.liveVideo = {
         playingState: false,
@@ -34,15 +36,39 @@ angular.module(MODULE_NAME, ['ionic'])
         stopPlay: function(){},
       }
 
+      $scope.loadComments = function(video) {
+        videoSearchService.getComments($scope.video.recordingId).then(function(comments) {
+          console.log("comments", comments);
+          $scope.videoComments = comments;
+        });
+      }
+
+      $scope.submitComment = function() {
+        console.log("submit comment", $scope.newComment);
+        if($scope.newComment.text) {
+          videoSearchService.submitComment($scope.video.recordingId, $scope.newComment).then(function(comments) {
+            $scope.newComment.text = '';
+            $scope.videoComments = comments;
+          });
+        }
+      }
 
       $scope.$on('$ionicView.beforeEnter', function(){
         videoSearchService.get($stateParams.videoId).then(function(video) {
           $scope.video = video;
+          $scope.loadComments(video);
+          $scope.pollInterval = $interval(function() {
+            $scope.loadComments(video);
+          }, 1000);
         });
       });
 
       $scope.$on('$ionicView.beforeLeave', function(){
         $scope.liveVideo.stopPlay();
+        if($scope.pollInterval) {
+          $interval.cancel($scope.pollInterval);
+          $scope.pollInterval = undefined;
+        }
         $scope.video = {};
       });
 
