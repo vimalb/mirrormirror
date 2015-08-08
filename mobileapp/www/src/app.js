@@ -2,11 +2,17 @@ document.APP_MODULES = document.APP_MODULES || [];
 
 (function() {
 
-ALL_MODULES = [ 'ionic' ].concat(document.APP_MODULES);
+ALL_MODULES = [ 'ionic', 
+                'ngTagsInput', 
+                "com.2fdevs.videogular",
+                "com.2fdevs.videogular.plugins.controls",
+                "com.2fdevs.videogular.plugins.overlayplay",
+                ].concat(document.APP_MODULES);
 
 angular.module('mainApp', ALL_MODULES)
-    .config(function($urlRouterProvider) {
-      //CONFIG: Default URL is here
+    .config(function($urlRouterProvider, $ionicConfigProvider) {
+      $ionicConfigProvider.tabs.style('standard');
+      $ionicConfigProvider.tabs.position('bottom');
       $urlRouterProvider.otherwise('/tab/dash');
     })
     .run(function($ionicPlatform) {
@@ -30,12 +36,15 @@ deferredBootstrapper.bootstrap({
   element: document.body,
   module: 'mainApp',
   resolve: {
-    CLIENT_SETTINGS: ['$http', '$q', function ($http, $q) {
+    CLIENT_SETTINGS: ['$q', function ($q) {
       var deferred = $q.defer();
       deferred.resolve(document.CLIENT_SETTINGS);
       return deferred.promise;
     }],
-    SOCKET_IO_CLIENT: ['$http', '$q', function ($http, $q) {
+    SERVER_SETTINGS: ['$http', function ($http) {
+      return $http.get(document.CLIENT_SETTINGS.SERVER_URL+'/settings/server');
+    }],
+    SOCKET_IO_CLIENT: ['$q', function ($q) {
       var deferred = $q.defer();
       $.getScript(document.CLIENT_SETTINGS.SERVER_URL+'/socket.io/socket.io.js', function() {
           deferred.resolve();

@@ -25,8 +25,8 @@ angular.module(MODULE_NAME, ['ionic'])
         }
       });
   })
-  .controller(CONTROLLER_NAME, function($scope) {
-  
+  .controller(CONTROLLER_NAME, function($scope, videoSearchService) {
+    // TODO: Fill me out
   })
 
   

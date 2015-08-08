@@ -18,8 +18,13 @@ angular.module(MODULE_NAME, ['ionic'])
         $stateProvider.state('tab', {
             url: ROUTE_URL,
             abstract: true,
-            templateUrl: TEMPLATE_URL
+            templateUrl: TEMPLATE_URL,
+	        controller: CONTROLLER_NAME
           });
+  })
+  .controller(CONTROLLER_NAME, function($scope) {
+    console.log("Instantiating controller", CONTROLLER_NAME);
+
   })
 
   
