@@ -1,16 +1,91 @@
-<ion-view view-title="Chats">
+<ion-view view-title="Share">
   <ion-content>
-    <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in chats" type="item-text-wrap" href="#/tab/chats/{{chat.id}}">
-        <img ng-src="{{chat.face}}">
-        <h2>{{chat.name}}</h2>
-        <p>{{chat.lastText}}</p>
-        <i class="icon ion-chevron-right icon-accessory"></i>
 
-        <ion-option-button class="button-assertive" ng-click="remove(chat)">
-          Delete
-        </ion-option-button>
-      </ion-item>
-    </ion-list>
+  	<div ng-show="uploadState == 'register'">
+      <ion-list>
+        <label class="item item-input">
+	      <span class="input-label">Title</span>
+	      <input type="text" ng-model="recordingInfo.title">
+	    </label>
+        <label class="item item-input">
+	      <span class="input-label">Tags</span>
+	      <tags-input ng-model="recordingInfo.tags"></tags-input>
+	    </label>
+    	<ion-item>
+	      <button class="button" ng-click="goToRecord()">
+		    Register!
+		  </button>
+        </ion-item>
+      </ion-list>
+    </div>
+
+  	<div ng-show="uploadState == 'record'">
+      <ion-list>
+    	<ion-item>
+    	  Recording woooo!
+    	</ion-item>
+    	<ion-item>
+    	  <button ng-show="!recordControl.recordingState" class="button" ng-click="recordControl.startRecording()">
+			<span>Start Recording</span>
+		  </button>
+    	  <button ng-show="recordControl.recordingState" class="button" ng-click="recordControl.finishRecording()">
+			<span>Stop Recording</span>
+		  </button>
+        </ion-item>
+    	<ion-item>
+	      <web-rtc-upload 
+	      	start-recording-fn="recordControl.startRecording" 
+	      	finish-recording-fn="recordControl.finishRecording" 
+	      	cancel-recording-fn="recordControl.cancelRecording"
+	      	get-screenshot-fn="recordControl.getScreenshot"
+	      	recording-state="recordControl.recordingState"
+	      	recording-id="recordingInfo.recordingId"
+	      	on-recording-start="onRecordingStart(recordingId)"
+	      	on-recording-finish="onRecordingFinish(recordingId)">
+	      </web-rtc-upload>
+    	</ion-item>
+    	<ion-item>
+
+	      <button class="button" ng-click="takeThumbnail('before')">
+		    Before
+		  </button>
+		  <img ng-src="{{ recordingInfo.thumbnails.before }}" style="width: 40px; height: 40px">
+
+	      <button class="button" ng-click="takeThumbnail('after')">
+		    After
+		  </button>
+		  <img ng-src="{{ recordingInfo.thumbnails.after }}" style="width: 40px; height: 40px">
+
+        </ion-item>
+
+      </ion-list>
+    </div>
+
+  	<div ng-show="uploadState == 'review'">
+      <ion-list>
+    	<ion-item>
+	      Reviewing woooo!
+    	</ion-item>
+    	<ion-item>
+	      <button class="button" ng-click="goToShare()">
+		    Publish!
+		  </button>
+        </ion-item>
+      </ion-list>
+    </div>
+
+  	<div ng-show="uploadState == 'share'">
+      <ion-list>
+    	<ion-item>
+	      Sharing woooo!
+    	</ion-item>
+    	<ion-item>
+	      <button class="button" ng-click="goToDash()">
+		    Finish!
+		  </button>
+        </ion-item>
+      </ion-list>
+    </div>
+
   </ion-content>
 </ion-view>

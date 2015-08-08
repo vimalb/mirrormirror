@@ -26,7 +26,80 @@ angular.module(MODULE_NAME, ['ionic'])
       });
     })
     .controller(CONTROLLER_NAME, function($scope, $rootScope, $state, videoSearchService, userService) {
-    
+      // states: ['register','record','review','share']
+      $scope.uploadState = 'register';
+      $scope.recordingId = undefined;
+      $scope.recordControl = {
+          startRecording: function(){},
+          finishRecording: function(){}, 
+          cancelRecording: function(){},
+          getScreenshot: function(){},
+          recordingState: false,
+      }
+
+      $scope.resetUpload = function() {
+        $scope.recordControl.cancelRecording()
+        $scope.uploadState = 'register';
+        if($scope.recordingInfo && $scope.recordingInfo.state == 'live') {
+          $scope.recordingInfo.state = 'canceled';
+          videoSearchService.update($scope.recordingInfo);
+        }
+        $scope.recordingInfo = {
+          recordingId: undefined,
+          state: undefined,
+          uploadUser: userService.getCurrentUser(),
+          title: "",
+          tags: [],
+          thumbnails: {},
+        }
+        console.log($scope.recordingInfo);
+      }
+      $scope.resetUpload();
+      
+
+      $scope.goToRecord = function() {
+        $scope.uploadState = 'record';
+      }
+
+      $scope.goToReview = function() {
+        $scope.uploadState = 'review';
+      }
+
+      $scope.goToShare = function() {
+        $scope.uploadState = 'share';
+      }
+
+
+      $scope.goToDash = function() {
+        if($scope.recordingInfo.recordingId) {
+          $state.go('tab.video-detail', {videoId: $scope.recordingInfo.recordingId});
+        }
+        else {
+          $state.go('tab.dash');
+        }
+      }
+
+      $scope.onRecordingStart = function(recordingId) {
+        $scope.recordingInfo.state = 'live';
+        videoSearchService.update($scope.recordingInfo);
+      }
+
+      $scope.onRecordingFinish = function(recordingId) {
+        $scope.recordingInfo.state = 'finished';
+        videoSearchService.update($scope.recordingInfo);
+        $scope.goToReview();
+      }
+
+      $scope.takeThumbnail = function(thumbnailType) {
+        var screenshotSrc = $scope.recordControl.getScreenshot();
+        $scope.recordingInfo.thumbnails[thumbnailType] = screenshotSrc;
+        videoSearchService.update($scope.recordingInfo);
+      }
+
+      $scope.$on('$ionicView.beforeLeave', function(){
+        $scope.resetUpload();
+      });
+
     })
 
   
