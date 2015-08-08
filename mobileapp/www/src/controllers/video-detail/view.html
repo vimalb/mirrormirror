@@ -12,8 +12,8 @@
     <img ng-src="{{ video.thumbnails.after }}" style="width: 64px; height: 64px">
     -->
     <videogular vg-player-ready="onPlayerReady($API)" vg-theme="videoTheme">
-      <vg-media vg-src="videoSources"></vg-media>
-      <vg-controls>
+      <vg-media class="vid-height" vg-src="videoSources"></vg-media>
+      <!--vg-controls>
         <vg-play-pause-button></vg-play-pause-button>
         <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
         <vg-scrub-bar>
@@ -27,7 +27,7 @@
         <vg-fullscreen-button></vg-fullscreen-button>
       </vg-controls>
  
-      <vg-overlay-play></vg-overlay-play>
+      <vg-overlay-play></vg-overlay-play-->
 
       <!-- design branch changes --> 
       <div class="comment">
@@ -48,7 +48,7 @@
   </ion-content>
 
   <!-- design branch changes --> 
-  <hr>  <!--I think style.css isn't properly linked-->
+  <hr>  <!--I think style.css isn't   properly linked-->
   <div class="tabs">
     <a class="tab-item long" ng-click="search({}, 'Recommended Videos')">
       #Chanel No. 5 lipstick #Revlon Maxx Lash
