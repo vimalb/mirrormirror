@@ -16,9 +16,10 @@
 
       <!-- design branch changes --> 
 
+      <!--
       <vg-controls>
         <vg-play-pause-button></vg-play-pause-button>
-        <!--vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+        <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
         <vg-scrub-bar>
           <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
         </vg-scrub-bar>
@@ -27,33 +28,39 @@
           <vg-mute-button></vg-mute-button>
           <vg-volume-bar></vg-volume-bar>
         </vg-volume>
-        <vg-fullscreen-button></vg-fullscreen-button-->
+        <vg-fullscreen-button></vg-fullscreen-button>
       </vg-controls>
+       -->
  
       <vg-overlay-play></vg-overlay-play>
-      <div class="comment">
-        <p class="add_comment">What lipstick do you use?? It's so pretty!!</p>
-      </div>
 
-      <div class="add_comment">
-        <p class="add_comment">Leave a comment</p>
-      </div>
-
-      <div class="heart">
-        <i class="ion-heart"></i>
-      </div>
-      <!-- end design branch changes -->
 
     </videogular>
 
+    <div class="comment_bar">
+      <div class="add_comment">
+        <input ng-model="newComment" class="comment_box" placeholder="Leave a comment here"></input>
+        <button ng-click="submitComment" class="comment_submit">Submit</button>
+      </div>
+      <div class="heart">
+        <i class="ion-heart"></i>
+      </div>
+    </div>
+
+    <div class="comment" ng-repeat="comment in video.comments">
+      <p class="add_comment"><span class="comment-username">{{ comment.username }}:</span> {{ comment.text }}</p>
+    </div>
+    <div class="comment">
+      <p class="add_comment"><span class="comment-username">@bar:</span> omg squee</p>
+    </div>
+
   </ion-content>
 
-  <!-- design branch changes --> 
-  <hr>  <!--I think style.css isn't   properly linked-->
+  <hr>
   <div class="tabs">
-    <a class="tab-item long" ng-click="search({}, 'Recommended Videos')">
-      #Chanel No. 5 lipstick #Revlon Maxx Lash
+    <a class="tab-item long" ng-repeat="tag in video.tags">
+      #{{ tag.text }}
     </a>
   </div>
-  <!-- end design branch changes -->
+
 </ion-view>

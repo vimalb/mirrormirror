@@ -29,7 +29,7 @@
           <div class="leading">
             <a class="item item-thumbnail-left" href="#">
               <img ng-src="{{ video.thumbnails.after || video.thumbnails.before }}">
-              <h2 class="username">@{{ video.uploadUser.username }}</h2>
+              <h2 class="username">@{{ video.uploadUser.username }}  <span ng-show="video.state=='live'" style="color: blue;">LIVE</span></h2>
               <p class="title">{{ video.title }}</p>
               <p class="tag"><span ng-repeat="tag in video.tags">#{{ tag.text }} </span></p>
             </a>

@@ -18,11 +18,17 @@ angular.module(MODULE_NAME, [])
 
       return {
         search: function(searchRequest) {
+          console.log("Searching", searchRequest);
           var deferred = $q.defer();
           var url = CLIENT_SETTINGS.SERVER_URL + '/api/recordings';
           $http.get(url).then(function(resp) {
             var videos = _.filter(resp.data, function(video) {
-              return _.includes(['live', 'finished'], video.state);
+              if(searchRequest.live) {
+                return _.includes(['live'], video.state);
+              }
+              else {
+                return _.includes(['live', 'finished'], video.state);
+              }
             });
             deferred.resolve(videos);
           });
