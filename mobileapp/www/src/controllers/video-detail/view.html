@@ -4,11 +4,31 @@
   The FriendsCtrl pulls data from the Friends service (service.js)
   The Friends service returns an array of friend data
 -->
-<ion-view view-title="{{chat.name}}">
+<ion-view>
+  <ion-nav-title>{{ video.title }}</ion-nav-title>
   <ion-content class="padding">
-    <img ng-src="{{chat.face}}" style="width: 64px; height: 64px">
-    <p>
-      {{chat.lastText}}
-    </p>
+    <!--
+    <img ng-src="{{ video.thumbnails.before }}" style="width: 64px; height: 64px">
+    <img ng-src="{{ video.thumbnails.after }}" style="width: 64px; height: 64px">
+    -->
+    <videogular vg-player-ready="onPlayerReady($API)" vg-theme="videoTheme">
+      <vg-media vg-src="videoSources"></vg-media>
+      <vg-controls>
+        <vg-play-pause-button></vg-play-pause-button>
+        <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+        <vg-scrub-bar>
+          <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+        </vg-scrub-bar>
+        <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
+        <vg-volume>
+          <vg-mute-button></vg-mute-button>
+          <vg-volume-bar></vg-volume-bar>
+        </vg-volume>
+        <vg-fullscreen-button></vg-fullscreen-button>
+      </vg-controls>
+ 
+      <vg-overlay-play></vg-overlay-play>
+    </videogular>
+
   </ion-content>
 </ion-view>
