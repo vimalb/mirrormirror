@@ -5,6 +5,7 @@
 	width: 100%;
 	position: absolute;
 	top: 490px;
+
 }
 
 .go-to-bottom-2 {
@@ -14,8 +15,30 @@
 	top: 390px;
 }
 
+.go-to-bottom-3 {
+    bottom: 10px;
+    width: 100%;
+    position: absolute;
+    top: 340px;
+}
+
+.go-to-bottom-4 {
+    bottom: 10px;
+    width: 100%;
+    position: absolute;
+    top: 290px;
+}
+
 .opacity {
 	opacity: 0.3;
+}
+
+.margin-top-30 {
+    margin-top: 30px;
+}
+
+.white {
+    color: white;
 }
 
 .larger-font {
@@ -25,8 +48,12 @@
 	text-align: center;
 	line-height: 30px;
 	margin:10px;
+    color: deeppink;
 }
 
+ion-tabs.tabs-color-active-positive .tab-item.tab-item-active {
+    color: deeppink;
+}
 .center {
 	text-align: center;
 }
@@ -34,11 +61,13 @@
 .lg-icon {
 	margin: 20px 0 -5px 0;
 	font-size: 100px;
+    color: deeppink;
 }
 
 .lg-icon-2 {
 	margin: 100px 0 -5px 0;
 	font-size: 100px;
+    color: deeppink;
 }
 	
 .fixed-width {
@@ -58,21 +87,47 @@
 	box-shadow: none !important;
 }
 
+.button-pink {
+    color: white;
+    background-color: deeppink;
+    border: 0px;
+
+}
+
 /*elisa part*/
+
 /*For the "Watch" tab*/
 
 body {
     font-family: futura, sans-serif;
 }
+
+body.record {
+    background-color: pink;
+}
 .float_left {
     float: left;
 }
 .leading {
-    line-height: 65%;
+    line-height: 50%;
 }
+
+.photo_margin {
+    margin: -10px auto auto -10px;
+}
+
+.item-thumbnail-left img{
+    height: 120%;
+}
+
+.item-thumbnail-left{
+    padding: ;
+}
+
 .item-body .username {
     font-size: 22px;
     color: rgb(255, 51, 204);
+
 }
 .item-body .title {
     font-size: 18px;
@@ -120,14 +175,16 @@ div.add_comment {
 p.add_comment {
     margin: 3px auto auto 10px;
 }
-
-div.heart {
+.heart {
     position: absolute;
-    right: 4%;
-    top: 445px;
+    right: 1%;
+    top: 435px;
     color: deeppink;
     font-size: 30px;
+    background-color: transparent;
+    border: none;
 }
+
 
 /* Determines the length of tags at the bottom of the page*/
 
