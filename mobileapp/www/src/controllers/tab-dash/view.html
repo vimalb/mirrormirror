@@ -23,16 +23,15 @@
     </div>
     <br-->
 
-    <!-- @vimal, needs wiring -->
-    <div class="list card" ng-repeat="video in videos" ui-sref="tab.video-detail({videoId: video.recordingId})">
+    <div class="list card" ng-repeat="video in videos" ng-click="goVideoDetail(video)">
       <div class="item item-body video-item">
         <div class="list">
           <div class="leading">
             <a class="item item-thumbnail-left" href="#">
-              <img src="../../../images/Watch_Thumb.jpg">
-              <h2 class="username">Username</h2>
-              <p class="title">Video Title</p>
-              <p class="tag">#Tag #Tag #Tag</p>
+              <img ng-src="{{ video.thumbnails.after || video.thumbnails.before }}">
+              <h2 class="username">@{{ video.uploadUser.username }}</h2>
+              <p class="title">{{ video.title }}</p>
+              <p class="tag"><span ng-repeat="tag in video.tags">#{{ tag.text }} </span></p>
             </a>
           </div>
       </div>
