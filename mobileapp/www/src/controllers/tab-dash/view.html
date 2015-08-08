@@ -18,7 +18,7 @@
     <div class="list card" ng-repeat="video in videos" ng-click="goVideoDetail(video)">
       <div class="item item-divider">{{ video.title }}</div>
       <div class="item item-body">
-        <img ng-src="{{ video.thumbnails.after }}" style="width: 64px; height: 64px">
+        <img ng-src="{{ video.thumbnails.after || video.thumbnails.before }}" style="width: 64px; height: 64px">
       </div>
     </div>
     <br>
