@@ -91,13 +91,13 @@ angular.module(MODULE_NAME, ['ionic'])
         videoSearchService.update($scope.recordingInfo);
         
         $timeout(function() {
-          if(!$scope.recordingInfo.thumbnails['before']) {
-            $scope.takeThumbnail('before');
-          }
+          console.log("before thumbnail");
+          $scope.takeThumbnail('before');
         }, 5000);
 
         $scope.thumbInterval = $interval(function() {
-            $scope.takeThumbnail('after');
+          console.log("after thumbnail");
+          $scope.takeThumbnail('after');
         }, 2000);
 
       }
@@ -113,12 +113,6 @@ angular.module(MODULE_NAME, ['ionic'])
       }
 
       $scope.takeThumbnail = function(thumbnailType) {
-        if(thumbnailType == 'after') {
-          if($scope.thumbInterval) {
-            $interval.cancel($scope.thumbInterval);
-            $scope.thumbInterval = undefined;
-          }
-        }
         var screenshotSrc = $scope.recordControl.getScreenshot();
         $scope.recordingInfo.thumbnails[thumbnailType] = screenshotSrc;
         videoSearchService.update($scope.recordingInfo);

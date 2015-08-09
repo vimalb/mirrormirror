@@ -3,13 +3,14 @@
 /* dashboard css */
 
 .card .item.item-thumbnail-left.large {
-  padding-left: 130px;
+  padding-left: 145px;
 }
 
 .item-thumbnail-left img.photo_margin {
     margin: -10px auto auto -10px;
-    max-width: 120px;
+    max-width: 140px;
     max-height: 120px;
+
 }
 /* end dashboard */
 
