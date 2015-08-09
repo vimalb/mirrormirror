@@ -217,7 +217,11 @@ div.heart {
 
 .diy-button {
     border: none;
-    background-color: #FFBBDD;
+    background-color: deeppink;
+    color: white;
+    font-style: bold;
+    padding-top: 5px;
+    padding-bottom: 5px;
     width: 100%;
 }
 
