@@ -25,7 +25,7 @@ angular.module(MODULE_NAME, ['ionic'])
       }
     });
   })
-  .controller(CONTROLLER_NAME, function($scope, $stateParams, videoSearchService, $sce, userService, $interval) {
+  .controller(CONTROLLER_NAME, function($scope, $stateParams, videoSearchService, $sce, userService, $interval, $ionicModal) {
       $scope.video = {};
       $scope.videoComments = [];
       $scope.newComment = {'user': userService.getCurrentUser(), 'text': ''};
@@ -38,7 +38,6 @@ angular.module(MODULE_NAME, ['ionic'])
 
       $scope.loadComments = function(video) {
         videoSearchService.getComments($scope.video.recordingId).then(function(comments) {
-          console.log("comments", comments);
           $scope.videoComments = comments;
         });
       }
@@ -89,8 +88,35 @@ angular.module(MODULE_NAME, ['ionic'])
         }
       });
 
+      $scope.openDiy = function() {
+        $scope.openModal();
+      }
 
 
+      $ionicModal.fromTemplateUrl('src/modals/ad-modal.html', {
+          scope: $scope,
+          animation: 'slide-in-up'
+        }).then(function(modal) {
+          $scope.modal = modal;
+        });
+        $scope.openModal = function() {
+          $scope.modal.show();
+        };
+        $scope.closeModal = function() {
+          $scope.modal.hide();
+        };
+        //Cleanup the modal when we're done with it!
+        $scope.$on('$destroy', function() {
+          $scope.modal.remove();
+        });
+        // Execute action on hide modal
+        $scope.$on('modal.hidden', function() {
+          // Execute action
+        });
+        // Execute action on remove modal
+        $scope.$on('modal.removed', function() {
+          // Execute action
+        });
 
   })
 

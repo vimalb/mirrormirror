@@ -207,3 +207,33 @@ div.heart {
     max-width: 450px;
 }
 
+.diy-div {
+    margin-top: 10px;
+    width: 83%;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.diy-button {
+    border: none;
+    background-color: #FFBBDD;
+    width: 100%;
+}
+
+.buy-header {
+    color: #D7006C;
+    margin-left: 50px;
+}
+
+.buy-img {
+    width: 350px;
+    margin-left: 5px;
+    margin-right: auto;
+    margin-top: 10px;
+}
+
+.sponsor-pic {
+    height: 30px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
